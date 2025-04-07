@@ -86,18 +86,23 @@ function buscarPorApellido() {
 
   for (let key in localStorage) {
     if (localStorage.hasOwnProperty(key)) {
-      const ficha = JSON.parse(localStorage.getItem(key));
-      if (
-        ficha.apellidoPaterno &&
-        ficha.apellidoPaterno.toLowerCase() === apellidoBuscado
-      ) {
-        // Guardar datos en sessionStorage para mostrar en datosBusqueda.html
-        sessionStorage.setItem("pacienteBuscado", JSON.stringify(ficha));
-        window.location.href = "datosBusqueda.html";
-        return;
+      try {
+        const ficha = JSON.parse(localStorage.getItem(key));
+        if (
+          ficha.apellidoPaterno &&
+          ficha.apellidoPaterno.toLowerCase() === apellidoBuscado
+        ) {
+          sessionStorage.setItem("pacienteBuscado", JSON.stringify(ficha));
+          window.location.href = "datosBusqueda.html";
+          return;
+        }
+      } catch (e) {
+        console.error("Error al leer una ficha:", e);
       }
     }
   }
+
+  alert("No se encontró ningún paciente con ese apellido paterno.");
 
   alert("No se encontró ningún paciente con ese apellido paterno.");
 }
