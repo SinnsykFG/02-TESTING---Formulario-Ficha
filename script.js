@@ -36,6 +36,33 @@ function guardarFicha() {
   const nacimiento = document.getElementById("nacimiento").value;
   const estadoCivil = document.getElementById("estadoCivil").value;
   const comentarios = document.getElementById("comentarios").value.trim();
+  const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$/;
+
+  if (!nombres || !nombreRegex.test(nombres)) {
+    alert("Ingrese un nombre válido (solo letras y espacios).");
+    return;
+  }
+
+  if (!apellidoPaterno || !nombreRegex.test(apellidoPaterno)) {
+    alert("Ingrese un apellido paterno válido (solo letras).");
+    return;
+  }
+  if (!apellidoMaterno || !nombreRegex.test(apellidoMaterno)) {
+    alert("Ingrese un apellido materno válido (solo letras).");
+    return;
+  }
+
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(email)) {
+    alert("Email inválido. Ingrese un correo electrónico válido.");
+    return;
+  }
+
+  const hoy = new Date().toISOString().split("T")[0];
+  if (!nacimiento || nacimiento > hoy) {
+    alert("Fecha de nacimiento inválida. No puede ser en el futuro.");
+    return;
+  }
 
   if (!validarRut(rutNumero, rutDV)) {
     alert("RUT inválido. Verifica el número y el dígito verificador.");
@@ -101,8 +128,6 @@ function buscarPorApellido() {
       }
     }
   }
-
-  alert("No se encontró ningún paciente con ese apellido paterno.");
 
   alert("No se encontró ningún paciente con ese apellido paterno.");
 }
