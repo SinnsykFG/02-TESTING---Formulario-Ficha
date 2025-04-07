@@ -23,7 +23,12 @@ function guardarFicha() {
   const rutNumero = document.getElementById("rutNumero").value.trim();
   const rutDV = document.getElementById("rutDV").value.trim().toUpperCase();
   const nombres = document.getElementById("nombres").value.trim();
-  const apellidos = document.getElementById("apellidos").value.trim();
+  const apellidoPaterno = document
+    .getElementById("apellidoPaterno")
+    .value.trim();
+  const apellidoMaterno = document
+    .getElementById("apellidoMaterno")
+    .value.trim();
   const direccion = document.getElementById("direccion").value.trim();
   const ciudad = document.getElementById("ciudad").value.trim();
   const telefono = document.getElementById("telefono").value.trim();
@@ -51,7 +56,8 @@ function guardarFicha() {
   const ficha = {
     rut: rutCompleto,
     nombres,
-    apellidos,
+    apellidoPaterno,
+    apellidoMaterno,
     direccion,
     ciudad,
     telefono,
@@ -70,4 +76,28 @@ function guardarFicha() {
 
   alert("Ficha guardada correctamente.");
   window.location.href = "agradecimiento.html";
+}
+
+function buscarPorApellido() {
+  const apellidoBuscado = document
+    .getElementById("buscarApellido")
+    .value.trim()
+    .toLowerCase();
+
+  for (let key in localStorage) {
+    if (localStorage.hasOwnProperty(key)) {
+      const ficha = JSON.parse(localStorage.getItem(key));
+      if (
+        ficha.apellidoPaterno &&
+        ficha.apellidoPaterno.toLowerCase() === apellidoBuscado
+      ) {
+        // Guardar datos en sessionStorage para mostrar en datosBusqueda.html
+        sessionStorage.setItem("pacienteBuscado", JSON.stringify(ficha));
+        window.location.href = "datosBusqueda.html";
+        return;
+      }
+    }
+  }
+
+  alert("No se encontró ningún paciente con ese apellido paterno.");
 }
